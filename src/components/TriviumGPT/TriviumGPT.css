@@ -1,0 +1,70 @@
+#MainContainer {
+  height: 100%;
+}
+
+#MainSirioContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+#MessagesContainer {
+  padding: 15px;
+  padding-right: 0px;
+}
+#SirioContainer {
+  max-width: 800px;
+}
+
+#SirioMessage {
+  display: flex;
+  align-items: center;
+}
+#SirioMessage img {
+  max-width: 50px;
+  border-radius: 500px;
+  margin-right: 10px;
+}
+
+.fa-paperclip {
+  display: none;
+}
+
+/* Mudanças no CSS padrão do chat scope */
+
+/* Mensagem do usuario */
+.cs-message--outgoing .cs-message__content {
+  background-color: var(--main-red-color) !important;
+  color: white !important;
+}
+
+/* Mensagem do chat */
+.cs-message__content {
+  background-color: rgb(255, 152, 152) !important;
+  /* color: white !important; */
+}
+
+/* Input */
+.cs-message-input__content-editor-wrapper {
+  background-color: rgb(255, 97, 97) !important;
+}
+
+.cs-message-input__content-editor {
+  background-color: rgb(255, 97, 97) !important;
+  color: white !important;
+}
+
+/* Send ico */
+.fa-paper-plane {
+  color: var(--main-red-color) !important;
+}
+
+.toolBox-buttons {
+  background-color: white;
+  border: none;
+}
+
+.toolBox-buttons:hover {
+  cursor: pointer;
+}

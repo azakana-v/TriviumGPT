@@ -1,0 +1,82 @@
+#TipPageContainer {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+#TipPageImg {
+  width: 70%;
+  max-width: 350px;
+}
+
+.SwiperContainer {
+  width: 100vw;
+  /* height: 20%; */
+}
+
+.Swiper {
+  height: 100%;
+  width: 100%;
+}
+
+.SwiperSlide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#TipPageTitle {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: rgb(0, 114, 163);
+}
+.TipPageSliderContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.TipPageSliderContent {
+  color: rgb(131, 132, 133);
+  text-align: center;
+  font-size: 1.3em;
+  margin-bottom: 40px;
+  width: 75%;
+}
+
+#SwipeButton {
+  cursor: pointer;
+  width: 70px;
+}
+
+.tipPageButton {
+  width: 100%;
+  text-align: center;
+  height: 80px;
+}
+
+.startChatButton {
+  width: 60%;
+  max-width: 500px;
+  height: 100%;
+  /* padding: 5%; */
+  cursor: pointer;
+  color: white;
+  background-color: var(--main-red-color);
+  border: none;
+  font-size: 24px;
+  font-weight: 600;
+  border-radius: 15px;
+}
+
+@media screen and (max-width: 600px) {
+  .TipPageSliderContent {
+    font-size: 16px;
+  }
+  #SwipeButton {
+    width: 45px;
+  }
+}
