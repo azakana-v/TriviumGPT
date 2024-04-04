@@ -20,7 +20,7 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import VoiceRec from "../VoiceRec/VoiceRec";
 
-const API_KEY = "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";
+const API_KEY = import.meta.env.VITE_REACT_API_GPT_KEY;;
 
 function TriviumGPT() {
   const [typing, setTyping] = useState(false);
