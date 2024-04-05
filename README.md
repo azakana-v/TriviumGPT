@@ -3,7 +3,7 @@
     <p>TriviumGPT!</p>
 </h1>
 
-<img src="https://ik.imagekit.io/azakv/triviumgpt.gif?updatedAt=1712278817358" alt="app apresentation gif">
+<img width="100%" src="https://ik.imagekit.io/azakv/triviumgpt.gif?updatedAt=1712278817358" alt="app apresentation gif">
 
 <h2 align="center">
     <a href="https://azak-v.github.io/Quicksort/">
