@@ -20,12 +20,14 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import VoiceRec from "../VoiceRec/VoiceRec";
 
-const API_KEY = import.meta.env.VITE_REACT_API_GPT_KEY;;
+const API_KEY = import.meta.env.VITE_REACT_API_GPT_KEY;
 
 function TriviumGPT() {
   const [typing, setTyping] = useState(false);
   const [listening, setListening] = useState(false);
+  const [notCompatible, setNotCompatible] = useState();
   const [iconstate, setIcon] = useState("square");
+  const [messagePaused, setMessagePaused] = useState();
 
   const [messages, setMessages] = useState([
     {
@@ -34,10 +36,22 @@ function TriviumGPT() {
       sender: "ChatGPT",
     },
   ]); //Array de mensagens
+  async function talk(message) {
+    const synth = window.speechSynthesis;
+    let voices = synth.getVoices();
+    console.log("teste");
+    console.log("talk");
+    let msg = new SpeechSynthesisUtterance();
+    msg.voice = voices[0];
+    msg.rate = 1;
+    msg.pitch = 1;
+    msg.text = await message;
+    msg.lang = "pt-BR";
+    synth.speak(msg);
+  }
 
   const handleSend = async (message) => {
     setListening(false);
-    resetTranscript();
     const newMessage = {
       message: message,
       sender: "user",
@@ -48,10 +62,12 @@ function TriviumGPT() {
 
     //Atualiza o estado da mensagem
     setMessages(newMessages);
-    //Sirio esta digitando...
+    //Victor esta digitando...
     setTyping(true);
 
     //Processar a mensagem para o ChatGPT (mandar e ver a resposta)
+    SpeechRecognition.stopListening();
+    resetTranscript();
     await processMessageToChatGPT(newMessages);
   };
 
@@ -100,6 +116,7 @@ function TriviumGPT() {
       .then((data) => {
         console.log(data);
         console.log(data.choices[0].message.content);
+
         setMessages([
           ...chatMessages,
           { message: data.choices[0].message.content, sender: "ChatGPT" },
@@ -107,16 +124,17 @@ function TriviumGPT() {
         console.log(messages);
         console.log();
         setTyping(false);
+        return data.choices[0].message.content;
+      })
+      .then(async (message) => {
+        console.log("hmmm");
+        await talk(message);
       });
   }
   // Sessão de reconhecimento de fala:
   const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
     useSpeechRecognition();
 
-  if (!browserSupportsSpeechRecognition)
-    return (
-      <span>Seu navegador não é compativel com o Reconhecimento de fala!</span>
-    );
   return (
     <div id="MainContainer">
       <div
@@ -157,20 +175,25 @@ function TriviumGPT() {
                 }
               })}
             </MessageList>
-            {listening ? (
+            {/* {listening ? ( */}
+            <MessageInput
+              // sendButton={false}
+              sendDisabled={listening ? false : undefined}
+              value={listening ? transcript : undefined}
+              placeholder="Escreva sua mensagem aqui..."
+              onSend={(message) => {
+                listening ? handleSend(transcript) : handleSend(message);
+
+                // SpeechRecognition.stopListening();
+              }}
+            ></MessageInput>
+            {/* ) : (
               <MessageInput
-                // sendButton={false}
-                value={transcript}
+                //
                 placeholder="Escreva sua mensagem aqui..."
                 onSend={handleSend}
               ></MessageInput>
-            ) : (
-              <MessageInput
-                // sendButton={false}
-                placeholder="Escreva sua mensagem aqui..."
-                onSend={handleSend}
-              ></MessageInput>
-            )}
+            )} */}
             <InputToolbox>
               {/* <SendButton /> */}
               {/* teste */}
@@ -178,15 +201,32 @@ function TriviumGPT() {
                 <button
                   className="toolBox-buttons"
                   onClick={() => {
-                    SpeechRecognition.startListening({ continuous: true });
-                    setListening(true);
-                    // setIcon("square");
+                    if (!listening) {
+                      resetTranscript();
+                      SpeechRecognition.startListening({
+                        continuous: true,
+                        language: "pt-BR",
+                      });
+                      if (!browserSupportsSpeechRecognition) {
+                        alert(
+                          "Seu navegador não é compativel com o Reconhecimento de fala!"
+                        );
+                      }
+                      setListening(true);
+                      // setIcon("square");
+                    } else {
+                      SpeechRecognition.stopListening();
+                      setListening(false);
+                    }
                   }}
                 >
                   <box-icon
                     color="rgb(242, 16, 61)"
                     type="solid"
                     name="microphone"
+                    style={
+                      listening ? { backgroundColor: "rgb(242, 16, 61)" } : {}
+                    }
                   ></box-icon>
                 </button>
               </div>{" "}
